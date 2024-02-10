@@ -1,0 +1,20 @@
+# Entornos virtuales de Python
+venv/
+*.pyc
+
+# Dependencias instaladas por pip
+/lib/
+/include/
+/bin/
+/Scripts/
+
+# Archivos de registro y caché
+__pycache__/
+*.log
+*.cache
+
+# Archivos de configuración local (se pueden incluir en un archivo .env)
+.env
+
+# Archivos de registro de Python y sus carpetas
+logs/
