@@ -21,7 +21,7 @@ import clases.clase_detalle_alojamiento as clase_detalle_alojamiento
 import controlador.controlador_usuario as controlador_usuario
 
 
-from flask_jwt import JWT, jwt_required, current_identity
+# from flask_jwt import JWT, jwt_required, current_identity
 
 
 
@@ -63,7 +63,7 @@ app = Flask(__name__)
 app.debug = True
 app.config['SECRET_KEY'] = 'super-secret'
 
-jwt = JWT(app, authenticate, identity)
+# jwt = JWT(app, authenticate, identity)
 
 
 @app.route("/")
@@ -92,71 +92,71 @@ def login():
 
 
 
-# APIs - Inicio
-@app.route("/api_obtener_habitaciones")
-@jwt_required()
-def api_obtener_habitaciones():
-        habitacion = controlador_habitaciones.obtener_habitacion()
-        listaserializable = []
-        for habitacion in habitacion:
-             miobj = clase_habitacion.Habitacion(habitacion[0], habitacion[1], habitacion[2], habitacion[3])
-             listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
+# # APIs - Inicio
+# @app.route("/api_obtener_habitaciones")
+# @jwt_required()
+# def api_obtener_habitaciones():
+#         habitacion = controlador_habitaciones.obtener_habitacion()
+#         listaserializable = []
+#         for habitacion in habitacion:
+#              miobj = clase_habitacion.Habitacion(habitacion[0], habitacion[1], habitacion[2], habitacion[3])
+#              listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
 
-@app.route("/api_guardarhabitacion", methods=["POST"])
-@jwt_required()
-def api_guardarhabitacion():
-    try:
-        estado_habitacion = request.json["estado_habitacion"]
-        descripcion = request.json["descripcion"]
-        categoria_id = request.json["categoria"]
-        categoria=controlador_categoria_habitacion.obtener_categoria_habitacion_por_id(categoria_id)
-        if categoria is not None:
-            controlador_habitaciones.insertar_habitacion(estado_habitacion, descripcion, categoria_id)
-            return jsonify({"Mensaje":"Habitación registrada correctamente"})
-        return jsonify({"Mensaje":"Habitación no registrada, la categoria id no existe"})
+# @app.route("/api_guardarhabitacion", methods=["POST"])
+# @jwt_required()
+# def api_guardarhabitacion():
+#     try:
+#         estado_habitacion = request.json["estado_habitacion"]
+#         descripcion = request.json["descripcion"]
+#         categoria_id = request.json["categoria"]
+#         categoria=controlador_categoria_habitacion.obtener_categoria_habitacion_por_id(categoria_id)
+#         if categoria is not None:
+#             controlador_habitaciones.insertar_habitacion(estado_habitacion, descripcion, categoria_id)
+#             return jsonify({"Mensaje":"Habitación registrada correctamente"})
+#         return jsonify({"Mensaje":"Habitación no registrada, la categoria id no existe"})
 
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_actualizarhabitacion", methods=["POST"])
-@jwt_required()
-def api_actualizarhabitacion():
-    try:
-        id = request.json["id"]
-        estado_habitacion = request.json["estado_habitacion"]
-        descripcion = request.json["descripcion"]
-        categoria_id = request.json["categoria"]
-        categoria=controlador_categoria_habitacion.obtener_categoria_habitacion_por_id(categoria_id)
-        if categoria is not None:
-            controlador_habitaciones.actualizar_habitacion(estado_habitacion, descripcion, categoria_id, id)
-            return jsonify({"Mensaje":"Habitación actualizada correctamente"})
-        return jsonify({"Mensaje":"Habitación no actualizada, la categoria id no existe"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_actualizarhabitacion", methods=["POST"])
+# @jwt_required()
+# def api_actualizarhabitacion():
+#     try:
+#         id = request.json["id"]
+#         estado_habitacion = request.json["estado_habitacion"]
+#         descripcion = request.json["descripcion"]
+#         categoria_id = request.json["categoria"]
+#         categoria=controlador_categoria_habitacion.obtener_categoria_habitacion_por_id(categoria_id)
+#         if categoria is not None:
+#             controlador_habitaciones.actualizar_habitacion(estado_habitacion, descripcion, categoria_id, id)
+#             return jsonify({"Mensaje":"Habitación actualizada correctamente"})
+#         return jsonify({"Mensaje":"Habitación no actualizada, la categoria id no existe"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_eliminarhabitacion", methods=["POST"])
-@jwt_required()
-def api_eliminarhabitacion():
-    try:
-        controlador_habitaciones.eliminar_habitacion(request.json["id"])
-        return jsonify({"Mensaje":"Habitación eliminada correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_eliminarhabitacion", methods=["POST"])
+# @jwt_required()
+# def api_eliminarhabitacion():
+#     try:
+#         controlador_habitaciones.eliminar_habitacion(request.json["id"])
+#         return jsonify({"Mensaje":"Habitación eliminada correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_obtenerhabitacion/<int:id>")
-@jwt_required()
-def api_obtenerhabitacion(id):
-    try:
-        habitacion = controlador_habitaciones.obtener_habitacion_por_id(id)
-        listaserializable = []
-        miobj = clase_habitacion.Habitacion(habitacion[0], habitacion[1], habitacion[2], habitacion[3])
-        listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_obtenerhabitacion/<int:id>")
+# @jwt_required()
+# def api_obtenerhabitacion(id):
+#     try:
+#         habitacion = controlador_habitaciones.obtener_habitacion_por_id(id)
+#         listaserializable = []
+#         miobj = clase_habitacion.Habitacion(habitacion[0], habitacion[1], habitacion[2], habitacion[3])
+#         listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-# APIs - Fin
+# # APIs - Fin
 
 @app.route("/agregar_habitacion")
 
@@ -214,66 +214,66 @@ def actualizar_habitacion():
 
 
 
-@app.route("/api_obtenercategoria_habitacion")
-@jwt_required()
-def api_obtenercategoria_habitacion():
-    try:
-        categoria_habitacion = controlador_categoria_habitacion.obtener_categoria_habitacion()
-        listaserializable = []
-        for categoria_habitacion in categoria_habitacion:
-            miobj = clase_categoria_habitacion.Categoria_habitacion(categoria_habitacion[0], categoria_habitacion[1], categoria_habitacion[2])
-            listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_obtenercategoria_habitacion")
+# @jwt_required()
+# def api_obtenercategoria_habitacion():
+#     try:
+#         categoria_habitacion = controlador_categoria_habitacion.obtener_categoria_habitacion()
+#         listaserializable = []
+#         for categoria_habitacion in categoria_habitacion:
+#             miobj = clase_categoria_habitacion.Categoria_habitacion(categoria_habitacion[0], categoria_habitacion[1], categoria_habitacion[2])
+#             listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_guardarcategoria_habitacion", methods=["POST"])
-@jwt_required()
-def api_guardarcategoria_habitacion():
-    try:
-        nombre = request.json["nombre"]
-        precio = request.json["precio"]
-        controlador_categoria_habitacion.insertar_categoria_habitacion(nombre, precio)
-        # De cualquier modo, y si todo fue bien, redireccionar
-        return jsonify({"Mensaje":"Categoría de habitación registrada correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_guardarcategoria_habitacion", methods=["POST"])
+# @jwt_required()
+# def api_guardarcategoria_habitacion():
+#     try:
+#         nombre = request.json["nombre"]
+#         precio = request.json["precio"]
+#         controlador_categoria_habitacion.insertar_categoria_habitacion(nombre, precio)
+#         # De cualquier modo, y si todo fue bien, redireccionar
+#         return jsonify({"Mensaje":"Categoría de habitación registrada correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_actualizarcategoria_habitacion", methods=["POST"])
-@jwt_required()
-def api_actualizarcategoria_habitacion():
-    try:
-        id = request.json["id"]
-        nombre = request.json["nombre"]
-        precio = request.json["precio"]
-        controlador_categoria_habitacion.actualizar_categoria_habitacion(nombre, precio, id)
-        return jsonify({"Mensaje":"Categoría de habitación actualizada correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_actualizarcategoria_habitacion", methods=["POST"])
+# @jwt_required()
+# def api_actualizarcategoria_habitacion():
+#     try:
+#         id = request.json["id"]
+#         nombre = request.json["nombre"]
+#         precio = request.json["precio"]
+#         controlador_categoria_habitacion.actualizar_categoria_habitacion(nombre, precio, id)
+#         return jsonify({"Mensaje":"Categoría de habitación actualizada correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_eliminarcategoria_habitacion", methods=["POST"])
-@jwt_required()
-def api_eliminarcategoria_habitacion():
-    try:
-        controlador_categoria_habitacion.eliminar_categoria_habitacion(request.json["id"])
-        return jsonify({"Mensaje":"Categoría de habitación eliminada correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_eliminarcategoria_habitacion", methods=["POST"])
+# @jwt_required()
+# def api_eliminarcategoria_habitacion():
+#     try:
+#         controlador_categoria_habitacion.eliminar_categoria_habitacion(request.json["id"])
+#         return jsonify({"Mensaje":"Categoría de habitación eliminada correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_obtener_categoria_habitacion/<int:id>")
-@jwt_required()
-def api_obtener_categoria_habitacion(id):
-    try:
-        categoria_habitacion = controlador_categoria_habitacion.obtener_categoria_habitacion_por_id(id)
-        listaserializable = []
-        miobj = clase_categoria_habitacion.Categoria_habitacion(categoria_habitacion[0], categoria_habitacion[1], categoria_habitacion[2])
-        listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_obtener_categoria_habitacion/<int:id>")
+# @jwt_required()
+# def api_obtener_categoria_habitacion(id):
+#     try:
+#         categoria_habitacion = controlador_categoria_habitacion.obtener_categoria_habitacion_por_id(id)
+#         listaserializable = []
+#         miobj = clase_categoria_habitacion.Categoria_habitacion(categoria_habitacion[0], categoria_habitacion[1], categoria_habitacion[2])
+#         listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
 
-# APIs - Fin
+# # APIs - Fin
 
 @app.route("/agregar_categoria_habitacion")
 def formulario_agregar_categoria_habitacion():
@@ -318,72 +318,72 @@ def actualizar_categoria_habitacion():
     return redirect("/categoria_habitacion")
 
 
-@app.route("/api_guardar_persona", methods=["POST"])
-@jwt_required()
-def api_guardar_persona():
-    try:
-        dni = request.json["dni"]
-        numero_telefono = request.json["numero_telefono"]
-        nombres = request.json["nombres"]
-        apellidos = request.json["apellidos"]
-        sexo = request.json["sexo"]
-        fecha_ingreso = request.json["fecha_ingreso"]
-        fecha_salida = request.json["fecha_salida"]
-        controlador_personas.insertar_persona(dni, numero_telefono, nombres, apellidos, sexo, fecha_ingreso, fecha_salida)
-        # De cualquier modo, y si todo fue bien, redireccionar
-        return jsonify({"Mensaje":"Persona registrada correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_guardar_persona", methods=["POST"])
+# @jwt_required()
+# def api_guardar_persona():
+#     try:
+#         dni = request.json["dni"]
+#         numero_telefono = request.json["numero_telefono"]
+#         nombres = request.json["nombres"]
+#         apellidos = request.json["apellidos"]
+#         sexo = request.json["sexo"]
+#         fecha_ingreso = request.json["fecha_ingreso"]
+#         fecha_salida = request.json["fecha_salida"]
+#         controlador_personas.insertar_persona(dni, numero_telefono, nombres, apellidos, sexo, fecha_ingreso, fecha_salida)
+#         # De cualquier modo, y si todo fue bien, redireccionar
+#         return jsonify({"Mensaje":"Persona registrada correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_obtener_personas")
-@jwt_required()
-def api_obtenerpersonas():
-    try:
-        personas = controlador_personas.obtener_personas()
-        listaserializable = []
-        for persona in personas:
-            miobj = clase_persona.persona(persona[0], persona[1], persona[2], persona[3],persona[4], persona[5], persona[6], persona[7])
-            listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_obtener_personas")
+# @jwt_required()
+# def api_obtenerpersonas():
+#     try:
+#         personas = controlador_personas.obtener_personas()
+#         listaserializable = []
+#         for persona in personas:
+#             miobj = clase_persona.persona(persona[0], persona[1], persona[2], persona[3],persona[4], persona[5], persona[6], persona[7])
+#             listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_actualizar_persona", methods=["POST"])
-@jwt_required()
-def api_actualizar_persona():
-    try:
-        persona_id = request.json["persona_id"]
-        dni = request.json["dni"]
-        numero_telefono = request.json["numero_telefono"]
-        nombres = request.json["nombres"]
-        apellidos = request.json["apellidos"]
-        sexo = request.json["sexo"]
-        fecha_ingreso = request.json["fecha_ingreso"]
-        fecha_salida = request.json["fecha_salida"]
-        controlador_personas.actualizar_persona(dni, numero_telefono, nombres, apellidos, sexo, fecha_ingreso, fecha_salida,persona_id)
-        return jsonify({"Mensaje":"Persona acualizada correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
-@app.route("/api_eliminarpersona", methods=["POST"])
-@jwt_required()
-def api_eliminarpersona():
-    try:
-        controlador_personas.eliminar_persona(request.json["persona_id"])
-        return jsonify({"Mensaje":"Persona eliminada correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_actualizar_persona", methods=["POST"])
+# @jwt_required()
+# def api_actualizar_persona():
+#     try:
+#         persona_id = request.json["persona_id"]
+#         dni = request.json["dni"]
+#         numero_telefono = request.json["numero_telefono"]
+#         nombres = request.json["nombres"]
+#         apellidos = request.json["apellidos"]
+#         sexo = request.json["sexo"]
+#         fecha_ingreso = request.json["fecha_ingreso"]
+#         fecha_salida = request.json["fecha_salida"]
+#         controlador_personas.actualizar_persona(dni, numero_telefono, nombres, apellidos, sexo, fecha_ingreso, fecha_salida,persona_id)
+#         return jsonify({"Mensaje":"Persona acualizada correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_eliminarpersona", methods=["POST"])
+# @jwt_required()
+# def api_eliminarpersona():
+#     try:
+#         controlador_personas.eliminar_persona(request.json["persona_id"])
+#         return jsonify({"Mensaje":"Persona eliminada correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_obtenerpersona/<int:persona_id>")
-@jwt_required()
-def api_obtenerpersona(persona_id):
-    try:
-        persona = controlador_personas.obtener_persona_por_id(persona_id)
-        listaserializable = []
-        miobj = clase_persona.persona(persona[0], persona[1], persona[2], persona[3],persona[4], persona[5], persona[6], persona[7])
-        listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_obtenerpersona/<int:persona_id>")
+# @jwt_required()
+# def api_obtenerpersona(persona_id):
+#     try:
+#         persona = controlador_personas.obtener_persona_por_id(persona_id)
+#         listaserializable = []
+#         miobj = clase_persona.persona(persona[0], persona[1], persona[2], persona[3],persona[4], persona[5], persona[6], persona[7])
+#         listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
 
 @app.route("/agregar_persona")
@@ -441,146 +441,146 @@ def actualizar_persona():
 
 
 
-@app.route("/api_obtenertransacciones")
-@jwt_required()
-def api_obtenertransacciones():
-    try:
-        transacciones = controlador_transaccion.obtener_transaccion()
-        listaserializable = []
-        for transaccion in transacciones:
-          miobj = clase_transaccion.Transaccion(transaccion[0], transaccion[1], transaccion[2], transaccion[3], transaccion[4], transaccion[5], transaccion[6], transaccion[7], transaccion[8], transaccion[9])
-          transaccion_serializable = miobj.midic.copy()
-          # Convertir objetos timedelta a cadenas de texto
-          transaccion_serializable['fecha_registro'] = str(transaccion_serializable['fecha_registro'])
-          transaccion_serializable['hora_registro'] = str(transaccion_serializable['hora_registro'])
-          transaccion_serializable['fecha_entrada'] = str(transaccion_serializable['fecha_entrada'])
-          transaccion_serializable['hora_entrada'] = str(transaccion_serializable['hora_entrada'])
-          transaccion_serializable['fecha_salida'] = str(transaccion_serializable['fecha_salida'])
-          transaccion_serializable['hora_salida'] = str(transaccion_serializable['hora_salida'])
+# @app.route("/api_obtenertransacciones")
+# @jwt_required()
+# def api_obtenertransacciones():
+#     try:
+#         transacciones = controlador_transaccion.obtener_transaccion()
+#         listaserializable = []
+#         for transaccion in transacciones:
+#           miobj = clase_transaccion.Transaccion(transaccion[0], transaccion[1], transaccion[2], transaccion[3], transaccion[4], transaccion[5], transaccion[6], transaccion[7], transaccion[8], transaccion[9])
+#           transaccion_serializable = miobj.midic.copy()
+#           # Convertir objetos timedelta a cadenas de texto
+#           transaccion_serializable['fecha_registro'] = str(transaccion_serializable['fecha_registro'])
+#           transaccion_serializable['hora_registro'] = str(transaccion_serializable['hora_registro'])
+#           transaccion_serializable['fecha_entrada'] = str(transaccion_serializable['fecha_entrada'])
+#           transaccion_serializable['hora_entrada'] = str(transaccion_serializable['hora_entrada'])
+#           transaccion_serializable['fecha_salida'] = str(transaccion_serializable['fecha_salida'])
+#           transaccion_serializable['hora_salida'] = str(transaccion_serializable['hora_salida'])
 
-          listaserializable.append(transaccion_serializable)
+#           listaserializable.append(transaccion_serializable)
 
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
-
-
-
-import traceback
-
-@app.route("/api_guardartransaccion", methods=["POST"])
-@jwt_required()
-def api_guardartransaccion():
-    try:
-        fecha_registro = request.json["fecha_registro"]
-        hora_registro = request.json["hora_registro"]
-        tipo_transaccion = request.json["tipo_transaccion"]
-        fecha_entrada = request.json["fecha_entrada"]
-        hora_entrada = request.json["hora_entrada"]
-        fecha_salida = request.json["fecha_salida"]
-        hora_salida = request.json["hora_salida"]
-        habitacion_id = request.json["habitacion_id"]
-        persona_id = request.json["persona_id"]
-        habitacion = controlador_habitaciones.obtener_habitacion_por_id(habitacion_id)
-        personas = controlador_personas.obtener_persona_por_id(persona_id)
-        if habitacion is not None:
-            if personas is not None:
-                controlador_transaccion.insertar_transaccion(
-                    fecha_registro, hora_registro, tipo_transaccion,
-                    fecha_entrada, hora_entrada, fecha_salida, hora_salida,
-                    habitacion_id, persona_id)
-                return jsonify({"Mensaje": "Transacción guardada correctamente"})
-            else:
-                return jsonify({"Mensaje": "Persona no encontrada"})
-        else:
-            return jsonify({"Mensaje": "Habitación no encontrada"})
-    except:
-        return jsonify({"Mensaje": "Error en la transacción. Consulta el registro para más detalles."})
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
 
 
 
-@app.route("/api_actualizartransaccion", methods=["POST"])
-@jwt_required()
-def api_actualizartransaccion():
-    try:
-        id = request.json["id"]
-        fecha_registro = request.json["fecha_registro"]
-        hora_registro = request.json["hora_registro"]
-        tipo_transaccion = request.json["tipo_transaccion"]
-        fecha_entrada = request.json["fecha_entrada"]
-        hora_entrada = request.json["hora_entrada"]
-        fecha_salida = request.json["fecha_salida"]
-        hora_salida = request.json["hora_salida"]
-        habitacion_id = request.json["habitacion_id"]
-        persona_id = request.json["persona_id"]
-        habitacion= controlador_habitaciones.obtener_habitacion_por_id(habitacion_id)
-        personas=controlador_personas.obtener_persona_por_id(persona_id)
-        if habitacion is not None:
-            if personas is not None:
-               controlador_transaccion.actualizar_transaccion(fecha_registro,hora_registro, tipo_transaccion,fecha_entrada,hora_entrada, fecha_salida,hora_salida, habitacion_id,persona_id,id)
-            return jsonify({"Mensaje":"Transacción  actualizada"})
-        # De cualquier modo, y si todo fue bien, redireccionar
-        return jsonify({"Mensaje":"Transacción no actualizada"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
+# import traceback
 
-@app.route("/api_eliminartransaccion", methods=["POST"])
-@jwt_required()
-def api_eliminartransaccion():
-    try:
-        controlador_transaccion.eliminar_transaccion(request.json["id"])
-        return jsonify({"Mensaje":"Transacción eliminada correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
-
-@app.route("/api_obtenertransaccion/<int:id>")
-@jwt_required()
-def api_obtenertransaccion(id):
-    try:
-        transaccion = controlador_transaccion.obtener_transaccion_por_id(id)
-        listaserializable = []
-        miobj = clase_transaccion.Transaccion(transaccion[0], transaccion[1], transaccion[2], transaccion[3],transaccion[4], transaccion[5], transaccion[6],transaccion[7], transaccion[8], transaccion[9])
-        transaccion_serializable = miobj.midic.copy()
-         # Convertir objetos timedelta a cadenas de texto
-        transaccion_serializable['fecha_registro'] = str(transaccion_serializable['fecha_registro'])
-        transaccion_serializable['hora_registro'] = str(transaccion_serializable['hora_registro'])
-        transaccion_serializable['fecha_entrada'] = str(transaccion_serializable['fecha_entrada'])
-        transaccion_serializable['hora_entrada'] = str(transaccion_serializable['hora_entrada'])
-        transaccion_serializable['fecha_salida'] = str(transaccion_serializable['fecha_salida'])
-        transaccion_serializable['hora_salida'] = str(transaccion_serializable['hora_salida'])
-        listaserializable.append(transaccion_serializable)
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
-
-# APIs - Fin
-
-@app.route("/agregar_transaccion")
-def formulario_agregar_transaccion():
-    personas= controlador_personas.obtener_personas()
-    habitacion= controlador_habitaciones.obtener_habitacion()
-    return render_template("agregar_transaccion.html",personas=personas,habitacion=habitacion)
+# @app.route("/api_guardartransaccion", methods=["POST"])
+# @jwt_required()
+# def api_guardartransaccion():
+#     try:
+#         fecha_registro = request.json["fecha_registro"]
+#         hora_registro = request.json["hora_registro"]
+#         tipo_transaccion = request.json["tipo_transaccion"]
+#         fecha_entrada = request.json["fecha_entrada"]
+#         hora_entrada = request.json["hora_entrada"]
+#         fecha_salida = request.json["fecha_salida"]
+#         hora_salida = request.json["hora_salida"]
+#         habitacion_id = request.json["habitacion_id"]
+#         persona_id = request.json["persona_id"]
+#         habitacion = controlador_habitaciones.obtener_habitacion_por_id(habitacion_id)
+#         personas = controlador_personas.obtener_persona_por_id(persona_id)
+#         if habitacion is not None:
+#             if personas is not None:
+#                 controlador_transaccion.insertar_transaccion(
+#                     fecha_registro, hora_registro, tipo_transaccion,
+#                     fecha_entrada, hora_entrada, fecha_salida, hora_salida,
+#                     habitacion_id, persona_id)
+#                 return jsonify({"Mensaje": "Transacción guardada correctamente"})
+#             else:
+#                 return jsonify({"Mensaje": "Persona no encontrada"})
+#         else:
+#             return jsonify({"Mensaje": "Habitación no encontrada"})
+#     except:
+#         return jsonify({"Mensaje": "Error en la transacción. Consulta el registro para más detalles."})
 
 
-@app.route("/guardar_transaccion", methods=["POST"])
-def guardar_transaccion():
-    fecha_registro = request.form["fecha_registro"]
-    hora_registro = request.form["hora_registro"]
-    tipo_transaccion = request.form["tipo_transaccion"]
-    fecha_entrada = request.form["fecha_entrada"]
-    hora_entrada = request.form["hora_entrada"]
-    fecha_salida = request.form["fecha_salida"]
-    hora_salida = request.form["hora_salida"]
-    habitacion_id = request.form["habitacion_id"]
-    persona_id = request.form["persona_id"]
-    personas=controlador_personas.obtener_persona_por_id(persona_id)
-    habitacion=controlador_habitaciones.obtener_habitacion_por_id(habitacion_id)
-    if  personas is not None and habitacion is not None:
-               controlador_transaccion.insertar_transaccion(fecha_registro, hora_registro, tipo_transaccion, fecha_entrada, hora_entrada, fecha_salida, hora_salida, habitacion_id, persona_id)
-               return redirect("/transaccion")
 
-    return redirect("/transaccion")
-    # De cualquier modo, y si todo fue bien, redireccionar
+# @app.route("/api_actualizartransaccion", methods=["POST"])
+# @jwt_required()
+# def api_actualizartransaccion():
+#     try:
+#         id = request.json["id"]
+#         fecha_registro = request.json["fecha_registro"]
+#         hora_registro = request.json["hora_registro"]
+#         tipo_transaccion = request.json["tipo_transaccion"]
+#         fecha_entrada = request.json["fecha_entrada"]
+#         hora_entrada = request.json["hora_entrada"]
+#         fecha_salida = request.json["fecha_salida"]
+#         hora_salida = request.json["hora_salida"]
+#         habitacion_id = request.json["habitacion_id"]
+#         persona_id = request.json["persona_id"]
+#         habitacion= controlador_habitaciones.obtener_habitacion_por_id(habitacion_id)
+#         personas=controlador_personas.obtener_persona_por_id(persona_id)
+#         if habitacion is not None:
+#             if personas is not None:
+#                controlador_transaccion.actualizar_transaccion(fecha_registro,hora_registro, tipo_transaccion,fecha_entrada,hora_entrada, fecha_salida,hora_salida, habitacion_id,persona_id,id)
+#             return jsonify({"Mensaje":"Transacción  actualizada"})
+#         # De cualquier modo, y si todo fue bien, redireccionar
+#         return jsonify({"Mensaje":"Transacción no actualizada"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
+
+# @app.route("/api_eliminartransaccion", methods=["POST"])
+# @jwt_required()
+# def api_eliminartransaccion():
+#     try:
+#         controlador_transaccion.eliminar_transaccion(request.json["id"])
+#         return jsonify({"Mensaje":"Transacción eliminada correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
+
+# @app.route("/api_obtenertransaccion/<int:id>")
+# @jwt_required()
+# def api_obtenertransaccion(id):
+#     try:
+#         transaccion = controlador_transaccion.obtener_transaccion_por_id(id)
+#         listaserializable = []
+#         miobj = clase_transaccion.Transaccion(transaccion[0], transaccion[1], transaccion[2], transaccion[3],transaccion[4], transaccion[5], transaccion[6],transaccion[7], transaccion[8], transaccion[9])
+#         transaccion_serializable = miobj.midic.copy()
+#          # Convertir objetos timedelta a cadenas de texto
+#         transaccion_serializable['fecha_registro'] = str(transaccion_serializable['fecha_registro'])
+#         transaccion_serializable['hora_registro'] = str(transaccion_serializable['hora_registro'])
+#         transaccion_serializable['fecha_entrada'] = str(transaccion_serializable['fecha_entrada'])
+#         transaccion_serializable['hora_entrada'] = str(transaccion_serializable['hora_entrada'])
+#         transaccion_serializable['fecha_salida'] = str(transaccion_serializable['fecha_salida'])
+#         transaccion_serializable['hora_salida'] = str(transaccion_serializable['hora_salida'])
+#         listaserializable.append(transaccion_serializable)
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
+
+# # APIs - Fin
+
+# @app.route("/agregar_transaccion")
+# def formulario_agregar_transaccion():
+#     personas= controlador_personas.obtener_personas()
+#     habitacion= controlador_habitaciones.obtener_habitacion()
+#     return render_template("agregar_transaccion.html",personas=personas,habitacion=habitacion)
+
+
+# @app.route("/guardar_transaccion", methods=["POST"])
+# def guardar_transaccion():
+#     fecha_registro = request.form["fecha_registro"]
+#     hora_registro = request.form["hora_registro"]
+#     tipo_transaccion = request.form["tipo_transaccion"]
+#     fecha_entrada = request.form["fecha_entrada"]
+#     hora_entrada = request.form["hora_entrada"]
+#     fecha_salida = request.form["fecha_salida"]
+#     hora_salida = request.form["hora_salida"]
+#     habitacion_id = request.form["habitacion_id"]
+#     persona_id = request.form["persona_id"]
+#     personas=controlador_personas.obtener_persona_por_id(persona_id)
+#     habitacion=controlador_habitaciones.obtener_habitacion_por_id(habitacion_id)
+#     if  personas is not None and habitacion is not None:
+#                controlador_transaccion.insertar_transaccion(fecha_registro, hora_registro, tipo_transaccion, fecha_entrada, hora_entrada, fecha_salida, hora_salida, habitacion_id, persona_id)
+#                return redirect("/transaccion")
+
+#     return redirect("/transaccion")
+#     # De cualquier modo, y si todo fue bien, redireccionar
 
 
 
@@ -629,63 +629,63 @@ def actualizar_transaccion():
 
 
 
-@app.route("/api_obtenerservicios")
-@jwt_required()
-def api_obtenerservicios():
-    try:
-        servicios = controlador_servicios.obtener_servicios()
-        listaserializable = []
-        for servicio in servicios:
-            miobj = clase_servicios.Servicios(servicio[0], servicio[1])
-            listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_obtenerservicios")
+# @jwt_required()
+# def api_obtenerservicios():
+#     try:
+#         servicios = controlador_servicios.obtener_servicios()
+#         listaserializable = []
+#         for servicio in servicios:
+#             miobj = clase_servicios.Servicios(servicio[0], servicio[1])
+#             listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_guardarservicio", methods=["POST"])
-@jwt_required()
-def api_guardarservicio():
-    try:
-        descripcion = request.json["descripcion"]
-        controlador_servicios.insertar_servicios( descripcion)
-        # De cualquier modo, y si todo fue bien, redireccionar
-        return jsonify({"Mensaje":"Servicio registrado correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_guardarservicio", methods=["POST"])
+# @jwt_required()
+# def api_guardarservicio():
+#     try:
+#         descripcion = request.json["descripcion"]
+#         controlador_servicios.insertar_servicios( descripcion)
+#         # De cualquier modo, y si todo fue bien, redireccionar
+#         return jsonify({"Mensaje":"Servicio registrado correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_actualizarservicio", methods=["POST"])
-@jwt_required()
-def api_actualizarservicio():
-    try:
-        id = request.json["id"]
-        descripcion = request.json["descripcion"]
-        controlador_servicios.actualizar_servicios(descripcion, id)
-        return jsonify({"Mensaje":"Servicio actualizado correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_actualizarservicio", methods=["POST"])
+# @jwt_required()
+# def api_actualizarservicio():
+#     try:
+#         id = request.json["id"]
+#         descripcion = request.json["descripcion"]
+#         controlador_servicios.actualizar_servicios(descripcion, id)
+#         return jsonify({"Mensaje":"Servicio actualizado correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_eliminarservicio", methods=["POST"])
-@jwt_required()
-def api_eliminarservicio():
-    try:
-        controlador_servicios.eliminar_servicios(request.json["id"])
-        return jsonify({"Mensaje":"Servicio eliminado correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_eliminarservicio", methods=["POST"])
+# @jwt_required()
+# def api_eliminarservicio():
+#     try:
+#         controlador_servicios.eliminar_servicios(request.json["id"])
+#         return jsonify({"Mensaje":"Servicio eliminado correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_obtenerservicio/<int:id>")
-@jwt_required()
-def api_obtenerservicio(id):
-    try:
-        servicio = controlador_servicios.obtener_servicios_por_id(id)
-        listaserializable = []
-        miobj = clase_servicios.Servicios(servicio[0], servicio[1])
-        listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_obtenerservicio/<int:id>")
+# @jwt_required()
+# def api_obtenerservicio(id):
+#     try:
+#         servicio = controlador_servicios.obtener_servicios_por_id(id)
+#         listaserializable = []
+#         miobj = clase_servicios.Servicios(servicio[0], servicio[1])
+#         listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-# APIs - Fin
+# # APIs - Fin
 
 @app.route("/agregar_servicios")
 def formulario_agregar_servicios():
@@ -725,92 +725,92 @@ def actualizar_servicios():
     id = request.form["id"]
     descripcion = request.form["descripcion"]
     controlador_servicios.actualizar_servicios(descripcion, id)
-    return redirect("/servicios") @jwt_required()
+    return redirect("/servicios") 
 
-@app.route("/api_obtenerdetalleservicios")
-@jwt_required()
-def api_obtenerdetalleservicios():
-  try:
-        detalle_servicios = controlador_detalle_servicios.obtener_detalle_servicios()
-        listaserializable = []
-        for detalle_servicio in detalle_servicios:
-            miobj = clase_detalle_servicios.Detalle_S(detalle_servicio[0], detalle_servicio[1], detalle_servicio[2], detalle_servicio[3],detalle_servicio[4],detalle_servicio[5],detalle_servicio[6])
-            detalle_servicios_serializable = miobj.midic.copy()
-            # Convertir objetos timedelta a cadenas de texto
-            detalle_servicios_serializable['fecha_solicitud'] = str(detalle_servicios_serializable['fecha_solicitud'])
-            detalle_servicios_serializable['hora_solicitud'] = str(detalle_servicios_serializable['hora_solicitud'])
-            listaserializable.append(detalle_servicios_serializable)
-        return jsonify(listaserializable)
-  except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_obtenerdetalleservicios")
+# @jwt_required()
+# def api_obtenerdetalleservicios():
+#   try:
+#         detalle_servicios = controlador_detalle_servicios.obtener_detalle_servicios()
+#         listaserializable = []
+#         for detalle_servicio in detalle_servicios:
+#             miobj = clase_detalle_servicios.Detalle_S(detalle_servicio[0], detalle_servicio[1], detalle_servicio[2], detalle_servicio[3],detalle_servicio[4],detalle_servicio[5],detalle_servicio[6])
+#             detalle_servicios_serializable = miobj.midic.copy()
+#             # Convertir objetos timedelta a cadenas de texto
+#             detalle_servicios_serializable['fecha_solicitud'] = str(detalle_servicios_serializable['fecha_solicitud'])
+#             detalle_servicios_serializable['hora_solicitud'] = str(detalle_servicios_serializable['hora_solicitud'])
+#             listaserializable.append(detalle_servicios_serializable)
+#         return jsonify(listaserializable)
+#   except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_guardardetalleservicios", methods=["POST"])
-@jwt_required()
-def api_guardardetalleservicios():
-    try:
-        fecha_solicitud =request.json["fecha_solicitud"]
-        hora_solicitud =request.json["hora_solicitud"]
-        descripcion_solicitud =request.json["descripcion_solicitud"]
-        monto_servicio =request.json["monto_servicio"]
-        transaccion_id = request.json["transaccion_id"]
-        servicio_id = request.json["servicio_id"]
-        transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
-        servicio=controlador_servicios.obtener_servicios_por_id(servicio_id)
-        if transaccion is not None:
-            if servicio is not None:
-                controlador_detalle_servicios.insertar_detalle_servicios(fecha_solicitud, hora_solicitud, descripcion_solicitud, monto_servicio, transaccion_id, servicio_id)
-            return jsonify({"Mensaje":"Detalles de servicio registrado correctamente"})
-        # De cualquier modo, y si todo fue bien, redireccionar
-        return jsonify({"Mensaje":"Detalles de servicio registrado correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_guardardetalleservicios", methods=["POST"])
+# @jwt_required()
+# def api_guardardetalleservicios():
+#     try:
+#         fecha_solicitud =request.json["fecha_solicitud"]
+#         hora_solicitud =request.json["hora_solicitud"]
+#         descripcion_solicitud =request.json["descripcion_solicitud"]
+#         monto_servicio =request.json["monto_servicio"]
+#         transaccion_id = request.json["transaccion_id"]
+#         servicio_id = request.json["servicio_id"]
+#         transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
+#         servicio=controlador_servicios.obtener_servicios_por_id(servicio_id)
+#         if transaccion is not None:
+#             if servicio is not None:
+#                 controlador_detalle_servicios.insertar_detalle_servicios(fecha_solicitud, hora_solicitud, descripcion_solicitud, monto_servicio, transaccion_id, servicio_id)
+#             return jsonify({"Mensaje":"Detalles de servicio registrado correctamente"})
+#         # De cualquier modo, y si todo fue bien, redireccionar
+#         return jsonify({"Mensaje":"Detalles de servicio registrado correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_actualizardetalleservicios", methods=["POST"])
-@jwt_required()
-def api_actualizardetalleservicios():
-    try:
-        id = request.json["id"]
-        fecha_solicitud = request.json["fecha_solicitud"]
-        hora_solicitud = request.json["hora_solicitud"]
-        descripcion_solicitud = request.json["descripcion_solicitud"]
-        monto_servicio = request.json["monto_servicio"]
-        transaccion_id = request.json["transaccion_id"]
-        servicio_id = request.json["servicio_id"]
-        transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
-        servicio=controlador_servicios.obtener_servicios_por_id(servicio_id)
-        if transaccion is not None:
-            if servicio is not None:
-             controlador_detalle_servicios.actualizar_detalle_servicios(fecha_solicitud, hora_solicitud, descripcion_solicitud, monto_servicio,transaccion_id,servicio_id, id)
-            return jsonify({"Mensaje":"Detalles de servicio actualizado correctamente"})
-        return jsonify({"Mensaje":"Detalles de servicio actualizado correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_actualizardetalleservicios", methods=["POST"])
+# @jwt_required()
+# def api_actualizardetalleservicios():
+#     try:
+#         id = request.json["id"]
+#         fecha_solicitud = request.json["fecha_solicitud"]
+#         hora_solicitud = request.json["hora_solicitud"]
+#         descripcion_solicitud = request.json["descripcion_solicitud"]
+#         monto_servicio = request.json["monto_servicio"]
+#         transaccion_id = request.json["transaccion_id"]
+#         servicio_id = request.json["servicio_id"]
+#         transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
+#         servicio=controlador_servicios.obtener_servicios_por_id(servicio_id)
+#         if transaccion is not None:
+#             if servicio is not None:
+#              controlador_detalle_servicios.actualizar_detalle_servicios(fecha_solicitud, hora_solicitud, descripcion_solicitud, monto_servicio,transaccion_id,servicio_id, id)
+#             return jsonify({"Mensaje":"Detalles de servicio actualizado correctamente"})
+#         return jsonify({"Mensaje":"Detalles de servicio actualizado correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_eliminardetalleservicios", methods=["POST"])
-@jwt_required()
-def api_eliminardetalleservicios():
-    try:
-        controlador_detalle_servicios.eliminar_detalle_servicios(request.json["id"])
-        return jsonify({"Mensaje":"Detalles de servicio eliminado correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_eliminardetalleservicios", methods=["POST"])
+# @jwt_required()
+# def api_eliminardetalleservicios():
+#     try:
+#         controlador_detalle_servicios.eliminar_detalle_servicios(request.json["id"])
+#         return jsonify({"Mensaje":"Detalles de servicio eliminado correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_obtener_detalle_servicio_id/<int:id>")
-@jwt_required()
-def api_obtener_detalle_servicio_id(id):
-    try:
+# @app.route("/api_obtener_detalle_servicio_id/<int:id>")
+# @jwt_required()
+# def api_obtener_detalle_servicio_id(id):
+#     try:
 
-        detalle_servicios = controlador_detalle_servicios.obtener_detalle_servicios_por_id(id)
-        listaserializable = []
-        miobj = clase_detalle_servicios.Detalle_S(detalle_servicios[0], detalle_servicios[1], detalle_servicios[2], detalle_servicios[3], detalle_servicios[4], detalle_servicios[5], detalle_servicios[6])
-        detalle_servicios_serializable = miobj.midic.copy()
-            # Convertir objetos timedelta a cadenas de texto
-        detalle_servicios_serializable['fecha_solicitud'] = str(detalle_servicios_serializable['fecha_solicitud'])
-        detalle_servicios_serializable['hora_solicitud'] = str(detalle_servicios_serializable['hora_solicitud'])
-        listaserializable.append(detalle_servicios_serializable)
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+#         detalle_servicios = controlador_detalle_servicios.obtener_detalle_servicios_por_id(id)
+#         listaserializable = []
+#         miobj = clase_detalle_servicios.Detalle_S(detalle_servicios[0], detalle_servicios[1], detalle_servicios[2], detalle_servicios[3], detalle_servicios[4], detalle_servicios[5], detalle_servicios[6])
+#         detalle_servicios_serializable = miobj.midic.copy()
+#             # Convertir objetos timedelta a cadenas de texto
+#         detalle_servicios_serializable['fecha_solicitud'] = str(detalle_servicios_serializable['fecha_solicitud'])
+#         detalle_servicios_serializable['hora_solicitud'] = str(detalle_servicios_serializable['hora_solicitud'])
+#         listaserializable.append(detalle_servicios_serializable)
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
 @app.route("/agregar_detalle_servicios")
 def formulario_agregar_detalle_servicios():
@@ -871,7 +871,7 @@ def actualizar_detalle_servicios():
 
 # Inicio comprobante
 @app.route("/api_obtenercomprobantes")
-@jwt_required()
+# @jwt_required()
 def api_obtenercomprobantes():
     try:
         comprobante = controlador_comprobante.obtener_comprobante()
@@ -889,71 +889,71 @@ def api_obtenercomprobantes():
     except:
         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 946 951 631"})
 
-@app.route("/api_guardarcomprobante", methods=["POST"])
-@jwt_required()
-def api_guardarcomprobante():
+# @app.route("/api_guardarcomprobante", methods=["POST"])
+# @jwt_required()
+# def api_guardarcomprobante():
 
-        tipo_comprobante = request.json["tipo_comprobante"]
-        numero_comprobante = request.json["numero_comprobante"]
-        fecha_comprobante = request.json["fecha_comprobante"]
-        monto_total = request.json["monto_total"]
-        transaccion_id = request.json["transaccion_id"]
-        persona_id = request.json["persona_id"]
+#         tipo_comprobante = request.json["tipo_comprobante"]
+#         numero_comprobante = request.json["numero_comprobante"]
+#         fecha_comprobante = request.json["fecha_comprobante"]
+#         monto_total = request.json["monto_total"]
+#         transaccion_id = request.json["transaccion_id"]
+#         persona_id = request.json["persona_id"]
 
-        transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
-        personas=controlador_personas.obtener_persona_por_id(persona_id)
-        if transaccion is not None:
-            if personas is not None:
-               controlador_comprobante.insertar_comprobante(tipo_comprobante,numero_comprobante,fecha_comprobante,monto_total,transaccion_id,persona_id)
-            return jsonify({"Mensaje":"Comprobante guardado correctamente"})
-        # De cualquier modo, y si todo fue bien, redireccionar
-        return jsonify({"Mensaje":"Comprobante guardado correctamente"})
+#         transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
+#         personas=controlador_personas.obtener_persona_por_id(persona_id)
+#         if transaccion is not None:
+#             if personas is not None:
+#                controlador_comprobante.insertar_comprobante(tipo_comprobante,numero_comprobante,fecha_comprobante,monto_total,transaccion_id,persona_id)
+#             return jsonify({"Mensaje":"Comprobante guardado correctamente"})
+#         # De cualquier modo, y si todo fue bien, redireccionar
+#         return jsonify({"Mensaje":"Comprobante guardado correctamente"})
 
 
-@app.route("/api_actualizar_comprobante", methods=["POST"])
-@jwt_required()
-def api_actualizar_comprobante():
-    try:
-        id = request.json["id"]
-        tipo_comprobante = request.json["tipo_comprobante"]
-        numero_comprobante = request.json["numero_comprobante"]
-        fecha_comprobante = request.json["fecha_comprobante"]
-        monto_total = request.json["monto_total"]
+# @app.route("/api_actualizar_comprobante", methods=["POST"])
+# # @jwt_required()
+# def api_actualizar_comprobante():
+#     try:
+#         id = request.json["id"]
+#         tipo_comprobante = request.json["tipo_comprobante"]
+#         numero_comprobante = request.json["numero_comprobante"]
+#         fecha_comprobante = request.json["fecha_comprobante"]
+#         monto_total = request.json["monto_total"]
 
-        transaccion_id = request.json["transaccion_id"]
-        persona_id = request.json["persona_id"]
+#         transaccion_id = request.json["transaccion_id"]
+#         persona_id = request.json["persona_id"]
 
-        transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
-        persona=controlador_personas.obtener_persona_por_id(persona_id)
-        if transaccion is not None:
-            if persona is not None:
-                controlador_comprobante.actualizar_comprobante(tipo_comprobante,numero_comprobante,fecha_comprobante,monto_total,transaccion_id,persona_id,id)
-                return jsonify({"Mensaje":"Comprobante actualizado"})
-        # De cualquier modo, y si todo fue bien, redireccionar
-        return jsonify({"Mensaje":"Comprobante no actualizado"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
+#         transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
+#         persona=controlador_personas.obtener_persona_por_id(persona_id)
+#         if transaccion is not None:
+#             if persona is not None:
+#                 controlador_comprobante.actualizar_comprobante(tipo_comprobante,numero_comprobante,fecha_comprobante,monto_total,transaccion_id,persona_id,id)
+#                 return jsonify({"Mensaje":"Comprobante actualizado"})
+#         # De cualquier modo, y si todo fue bien, redireccionar
+#         return jsonify({"Mensaje":"Comprobante no actualizado"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
 
-@app.route("/api_eliminar_comprobante", methods=["POST"])
-@jwt_required()
-def api_eliminar_comprobante():
-    try:
-        controlador_comprobante.eliminar_comprobante(request.json["id"])
-        return jsonify({"Mensaje":"Comprobante eliminado correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 946 951 631"})
+# @app.route("/api_eliminar_comprobante", methods=["POST"])
+# # @jwt_required()
+# def api_eliminar_comprobante():
+#     try:
+#         controlador_comprobante.eliminar_comprobante(request.json["id"])
+#         return jsonify({"Mensaje":"Comprobante eliminado correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 946 951 631"})
 
-@app.route("/api_obtenercomprobante/<int:id>")
-@jwt_required()
-def api_obtenercomprobante(id):
-    try:
-        comprobante = controlador_comprobante.obtener_comprobante_por_id(id)
-        listaserializable = []
-        miobj = clase_comprobante.Comprobante(comprobante[0], comprobante[1], comprobante[2], comprobante[3],comprobante[4],comprobante[5],comprobante[6])
-        listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 946 951 631"})
+# @app.route("/api_obtenercomprobante/<int:id>")
+# # @jwt_required()
+# def api_obtenercomprobante(id):
+#     try:
+#         comprobante = controlador_comprobante.obtener_comprobante_por_id(id)
+#         listaserializable = []
+#         miobj = clase_comprobante.Comprobante(comprobante[0], comprobante[1], comprobante[2], comprobante[3],comprobante[4],comprobante[5],comprobante[6])
+#         listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 946 951 631"})
 
 
 #Apis - Fin
@@ -1021,77 +1021,77 @@ def actualizar_comprobante():
 
 #Inicio Detalle
 
-@app.route("/api_obtenerdetalles")
-@jwt_required()
-def api_obtenerdetalles():
-    try:
-        detalle = controlador_detalle.obtener_detalle()
-        listaserializable = []
-        for detalle in detalle:
-            miobj = clase_detalle.Detalle(detalle[0], detalle[1], detalle[2])
-            listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_obtenerdetalles")
+# @jwt_required()
+# def api_obtenerdetalles():
+#     try:
+#         detalle = controlador_detalle.obtener_detalle()
+#         listaserializable = []
+#         for detalle in detalle:
+#             miobj = clase_detalle.Detalle(detalle[0], detalle[1], detalle[2])
+#             listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_guardardetalle", methods=["POST"])
-@jwt_required()
-def api_guardardetalle():
-    try:
-        comprobante_id = request.json["comprobante_id"]
-        servicios_id = request.json["servicios_id"]
-        monto = request.json["monto"]
+# @app.route("/api_guardardetalle", methods=["POST"])
+# @jwt_required()
+# def api_guardardetalle():
+#     try:
+#         comprobante_id = request.json["comprobante_id"]
+#         servicios_id = request.json["servicios_id"]
+#         monto = request.json["monto"]
 
-        comprobante=controlador_comprobante.obtener_comprobante_por_id(comprobante_id)
-        servicio=controlador_servicios.obtener_servicios_por_id(servicios_id)
-        if comprobante is not None:
-            if servicio is not None:
-             controlador_detalle.insertar_detalle(servicios_id,comprobante_id, monto)
-            return jsonify({"Mensaje":"Detalles de comprobante registrado"})
-        # De cualquier modo, y si todo fue bien, redireccionar
-        return jsonify({"Mensaje":"Detalles de comprobante no registrado"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+#         comprobante=controlador_comprobante.obtener_comprobante_por_id(comprobante_id)
+#         servicio=controlador_servicios.obtener_servicios_por_id(servicios_id)
+#         if comprobante is not None:
+#             if servicio is not None:
+#              controlador_detalle.insertar_detalle(servicios_id,comprobante_id, monto)
+#             return jsonify({"Mensaje":"Detalles de comprobante registrado"})
+#         # De cualquier modo, y si todo fue bien, redireccionar
+#         return jsonify({"Mensaje":"Detalles de comprobante no registrado"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_actualizardetalle", methods=["POST"])
-@jwt_required()
-def api_actualizardetalle():
-    try:
-        servicios_id = request.json["servicios_id"]
-        comprobante_id = request.json["comprobante_id"]
-        monto = request.json["monto"]
+# @app.route("/api_actualizardetalle", methods=["POST"])
+# @jwt_required()
+# def api_actualizardetalle():
+#     try:
+#         servicios_id = request.json["servicios_id"]
+#         comprobante_id = request.json["comprobante_id"]
+#         monto = request.json["monto"]
 
-        comprobante=controlador_comprobante.obtener_comprobante_por_id(comprobante_id)
-        servicio=controlador_servicios.obtener_servicios_por_id(servicios_id)
-        if comprobante is not None:
-            if servicio is not None:
-             controlador_detalle.actualizar_detalle(comprobante_id, monto, servicios_id)
-             return jsonify({"Mensaje":"Detalle Comprobante actualizado"})
+#         comprobante=controlador_comprobante.obtener_comprobante_por_id(comprobante_id)
+#         servicio=controlador_servicios.obtener_servicios_por_id(servicios_id)
+#         if comprobante is not None:
+#             if servicio is not None:
+#              controlador_detalle.actualizar_detalle(comprobante_id, monto, servicios_id)
+#              return jsonify({"Mensaje":"Detalle Comprobante actualizado"})
 
-        return jsonify({"Mensaje":"Detalles de comprobante no actualizado"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+#         return jsonify({"Mensaje":"Detalles de comprobante no actualizado"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_eliminardetalle", methods=["POST"])
-@jwt_required()
-def api_eliminardetalle():
-    try:
-        controlador_detalle.eliminar_detalle(request.json["servicios_id"])
-        return jsonify({"Mensaje":"Detalle eliminado correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_eliminardetalle", methods=["POST"])
+# @jwt_required()
+# def api_eliminardetalle():
+#     try:
+#         controlador_detalle.eliminar_detalle(request.json["servicios_id"])
+#         return jsonify({"Mensaje":"Detalle eliminado correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
-@app.route("/api_obtenerdetalle/<int:id>")
-@jwt_required()
-def api_obtenerdetalle(id):
-    try:
-        detalle = controlador_detalle.obtener_detalle_por_id(id)
-        listaserializable = []
-        miobj = clase_detalle.Detalle(detalle[0], detalle[1], detalle[2])
-        listaserializable.append(miobj.midic.copy())
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
+# @app.route("/api_obtenerdetalle/<int:id>")
+# @jwt_required()
+# def api_obtenerdetalle(id):
+#     try:
+#         detalle = controlador_detalle.obtener_detalle_por_id(id)
+#         listaserializable = []
+#         miobj = clase_detalle.Detalle(detalle[0], detalle[1], detalle[2])
+#         listaserializable.append(miobj.midic.copy())
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 920 532 729"})
 
 
 #Apis - Fin
@@ -1153,82 +1153,82 @@ def actualizar_detalle():
 
 #Detalle_alojamiento
 
-@app.route("/api_obtenerdetalle_alojamientos")
-@jwt_required()
-def api_obtenerdetalle_alojamientos():
-    try:
-        detalle_alojamientos = controlador_detalle_alojamiento.obtener_detalle_alojamiento()
-        listaserializable = []
-        for detalle_alojamiento in detalle_alojamientos:
-          miobj = clase_detalle_alojamiento.detalle_alojamiento(detalle_alojamiento[0], detalle_alojamiento[1], detalle_alojamiento[2])
-          detalle_alojamiento_serializable = miobj.midic.copy()
-          listaserializable.append(detalle_alojamiento_serializable)
+# @app.route("/api_obtenerdetalle_alojamientos")
+# @jwt_required()
+# def api_obtenerdetalle_alojamientos():
+#     try:
+#         detalle_alojamientos = controlador_detalle_alojamiento.obtener_detalle_alojamiento()
+#         listaserializable = []
+#         for detalle_alojamiento in detalle_alojamientos:
+#           miobj = clase_detalle_alojamiento.detalle_alojamiento(detalle_alojamiento[0], detalle_alojamiento[1], detalle_alojamiento[2])
+#           detalle_alojamiento_serializable = miobj.midic.copy()
+#           listaserializable.append(detalle_alojamiento_serializable)
 
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
-
-
-
-@app.route("/api_guardardetalle_alojamiento", methods=["POST"])
-@jwt_required()
-def api_guardardetalle_alojamiento():
-    try:
-        transaccion_id = request.json["transaccion_id"]
-        persona_id = request.json["persona_id"]
-        transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
-        persona=controlador_personas.obtener_persona_por_id(persona_id)
-        if transaccion is not None:
-            if persona is not None:
-                controlador_detalle_alojamiento.insertar_detalle_alojamiento(transaccion_id,persona_id)
-                return jsonify({"Mensaje":"Detalle alojamiento guardada correctamente"})
-            return jsonify({"Mensaje":"Detalle alojamiento no guardado"})
-        # De cualquier modo, y si todo fue bien, redireccionar
-        return jsonify({"Mensaje":"Detalles de alojamiento no guardado"})
-    except Exception as e:
-        return jsonify({"Mensaje": str(e)})
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
 
 
-@app.route("/api_actualizardetalle_alojamiento", methods=["POST"])
-@jwt_required()
-def api_actualizardetalle_alojamiento():
-    try:
-        id = request.json["id"]
-        transaccion_id = request.json["transaccion_id"]
-        persona_id = request.json["persona_id"]
-        transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
-        persona=controlador_personas.obtener_persona_por_id(persona_id)
-        if transaccion is not None:
-            if persona is not None:
-                controlador_detalle_alojamiento.actualizar_detalle_alojamiento(transaccion_id,persona_id, id)
-                return jsonify({"Mensaje":"Detalle alojamiento  actualizada"})
-            return jsonify({"Mensaje":"Detalle alojamiento no actualizada"})
-        # De cualquier modo, y si todo fue bien, redireccionar
-        return jsonify({"Mensaje":"Detalles de alojamiento no actualizada"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
 
-@app.route("/api_eliminardetalle_alojamiento", methods=["POST"])
-@jwt_required()
-def api_eliminardetalle_alojamiento():
-    try:
-        controlador_detalle_alojamiento.eliminar_detalle_alojamiento(request.json["id"])
-        return jsonify({"Mensaje":"Detalles de alojamiento eliminada correctamente"})
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
+# @app.route("/api_guardardetalle_alojamiento", methods=["POST"])
+# @jwt_required()
+# def api_guardardetalle_alojamiento():
+#     try:
+#         transaccion_id = request.json["transaccion_id"]
+#         persona_id = request.json["persona_id"]
+#         transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
+#         persona=controlador_personas.obtener_persona_por_id(persona_id)
+#         if transaccion is not None:
+#             if persona is not None:
+#                 controlador_detalle_alojamiento.insertar_detalle_alojamiento(transaccion_id,persona_id)
+#                 return jsonify({"Mensaje":"Detalle alojamiento guardada correctamente"})
+#             return jsonify({"Mensaje":"Detalle alojamiento no guardado"})
+#         # De cualquier modo, y si todo fue bien, redireccionar
+#         return jsonify({"Mensaje":"Detalles de alojamiento no guardado"})
+#     except Exception as e:
+#         return jsonify({"Mensaje": str(e)})
 
-@app.route("/api_obtenerdetalle_alojamiento/<int:id>")
-@jwt_required()
-def api_obtenerdetalle_alojamiento(id):
-    try:
-        detalle_alojamiento = controlador_detalle_alojamiento.obtener_detalle_alojamiento_por_id(id)
-        listaserializable = []
-        miobj = clase_detalle_alojamiento.detalle_alojamiento(detalle_alojamiento[0], detalle_alojamiento[1],detalle_alojamiento[2])
-        detalle_alojamiento_serializable = miobj.midic.copy()
-        listaserializable.append(detalle_alojamiento_serializable)
-        return jsonify(listaserializable)
-    except:
-        return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
+
+# @app.route("/api_actualizardetalle_alojamiento", methods=["POST"])
+# @jwt_required()
+# def api_actualizardetalle_alojamiento():
+#     try:
+#         id = request.json["id"]
+#         transaccion_id = request.json["transaccion_id"]
+#         persona_id = request.json["persona_id"]
+#         transaccion= controlador_transaccion.obtener_transaccion_por_id(transaccion_id)
+#         persona=controlador_personas.obtener_persona_por_id(persona_id)
+#         if transaccion is not None:
+#             if persona is not None:
+#                 controlador_detalle_alojamiento.actualizar_detalle_alojamiento(transaccion_id,persona_id, id)
+#                 return jsonify({"Mensaje":"Detalle alojamiento  actualizada"})
+#             return jsonify({"Mensaje":"Detalle alojamiento no actualizada"})
+#         # De cualquier modo, y si todo fue bien, redireccionar
+#         return jsonify({"Mensaje":"Detalles de alojamiento no actualizada"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
+
+# @app.route("/api_eliminardetalle_alojamiento", methods=["POST"])
+# @jwt_required()
+# def api_eliminardetalle_alojamiento():
+#     try:
+#         controlador_detalle_alojamiento.eliminar_detalle_alojamiento(request.json["id"])
+#         return jsonify({"Mensaje":"Detalles de alojamiento eliminada correctamente"})
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
+
+# @app.route("/api_obtenerdetalle_alojamiento/<int:id>")
+# @jwt_required()
+# def api_obtenerdetalle_alojamiento(id):
+#     try:
+#         detalle_alojamiento = controlador_detalle_alojamiento.obtener_detalle_alojamiento_por_id(id)
+#         listaserializable = []
+#         miobj = clase_detalle_alojamiento.detalle_alojamiento(detalle_alojamiento[0], detalle_alojamiento[1],detalle_alojamiento[2])
+#         detalle_alojamiento_serializable = miobj.midic.copy()
+#         listaserializable.append(detalle_alojamiento_serializable)
+#         return jsonify(listaserializable)
+#     except:
+#         return jsonify({"Mensaje":"Error interno. Llame al Administrador de sistemas (+51) 969 696 969"})
 
 # APIs - Fin
 
@@ -1335,10 +1335,10 @@ def index():
 
 
 
-@app.route('/protected')
-@jwt_required()
-def protected():
-    return '%s' % current_identity
+# @app.route('/protected')
+# @jwt_required()
+# def protected():
+#     return '%s' % current_identity
 
 
 

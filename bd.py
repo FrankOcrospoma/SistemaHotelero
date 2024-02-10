@@ -1,8 +1,8 @@
 import pymysql
 
 def obtener_conexion():
-    return pymysql.connect(host='127.0.0.1',
-                                port=3306,
+    return pymysql.connect(host='viaduct.proxy.rlwy.net',
+                                port=36033,
                                 user='root',
-                                password='',
-                                db='Hotel')
+                                password='bgCHCddhcBfe12ccHDf14AFHccbD4E-a',
+                                db='hotel')
